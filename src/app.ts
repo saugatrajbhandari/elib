@@ -12,6 +12,10 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", userRouter);
+
+app.get("/api/user", (req, res) => {
+  res.json({ message: "hello" });
+});
 app.use(globalErrorHandler);
 
 export default app;
