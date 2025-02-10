@@ -3,6 +3,7 @@ import { config } from "./config";
 
 const connectDb = async () => {
   try {
+    // Set up event listeners before connection
     mongoose.connection.on("connected", () => console.log("connected"));
     mongoose.connection.on("disconnected", () => console.log("disconnected"));
     mongoose.connection.on("error", (err) => console.log(err));
