@@ -4,15 +4,19 @@ import path from "node:path";
 import createHttpError from "http-errors";
 import bookModel from "./bookModel";
 import fs from "node:fs";
+import { AuthRequest } from "../middlewares/authenticate";
 
 const createBook = async (req: Request, res: Response, next: NextFunction) => {
   console.log(req.files);
   const { title, genre } = req.body;
 
+  const _req = req as AuthRequest;
+
+  const userId = _req.userId;
+
   const files = req.files as { [filename: string]: Express.Multer.File[] };
 
   const coverImageMimetype = files.coverImage[0].mimetype.split("/").at(-1);
-
   const fileName = files.coverImage[0].filename;
 
   const filePath = path.resolve(
@@ -50,7 +54,7 @@ const createBook = async (req: Request, res: Response, next: NextFunction) => {
       genre,
       coverImage: uploadResult.secure_url,
       file: bookFileUploadResult.secure_url,
-      author: "dsfaafds",
+      author: userId,
     });
 
     // delete temp files
